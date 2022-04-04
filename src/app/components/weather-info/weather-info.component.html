@@ -1,0 +1,29 @@
+<div class="regularInfo">
+  <div class="overview-all">
+    <div class="main-temperature">
+      {{
+        dashboardData.currentTemp.toString() +
+          (dashboardData.units === "f" ? " °F" : " °C")
+      }}
+    </div>
+    <div class="overview-small">
+      <div>&nbsp;</div>
+      <div class="condition">{{ dashboardData.condition }}</div>
+      <div class="min-max">
+        {{
+          dashboardData.maxTemp.toString() +
+            (dashboardData.units === "f" ? " °F" : " °C")
+        }}
+      </div>
+      <div class="min-max">
+        {{
+          dashboardData.minTemp.toString() +
+            (dashboardData.units === "f" ? " °F" : " °C")
+        }}
+      </div>
+    </div>
+  </div>
+  <div class="location">
+    {{ dashboardData.location }}
+  </div>
+</div>
