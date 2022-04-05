@@ -11,7 +11,7 @@ import { GetWeatherService } from 'src/app/services/get-weather.service';
   styleUrls: ['./weather-info.component.css'],
 })
 export class WeatherInfoComponent implements OnInit {
-  constructor(private weatherService: GetWeatherService) {}
+  constructor(private _weatherService: GetWeatherService) {}
 
   // Dummy info from example, need to remove
   dashboardData = {
@@ -49,16 +49,26 @@ export class WeatherInfoComponent implements OnInit {
   }
 
   async loadWeatherInfo() {
-    let location: ILocationResult;
+    let locations: ILocationResult[];
     let weather: IWeatherResult;
     try {
-      location = await this.weatherService.getLocation('Monterrey', '', 'MEX');
-      weather = (await this.weatherService.getWeather(
-        location.lat,
-        location.lon
-      )) as IWeatherResult;
-      console.log('setting to this  +++', weather);
-      this.setDashboardWeather(weather);
+      this._weatherService
+        .getLocation({
+          cityName: 'Monterrey',
+          stateCode: '',
+          countryCode: 'MEX',
+        })
+        .subscribe((locationData) => {
+          // Using only the first value for now
+          locations = locationData;
+          console.log('got this location >>>>>', locationData);
+          this._weatherService
+            .getWeather(locations[0].lat, locations[0].lon)
+            .subscribe((weatherData) => {
+              weather = weatherData;
+              this.setDashboardWeather(weather);
+            });
+        });
       return true;
     } catch (error) {
       console.log('Error on loading dashboard weather ....', error);
