@@ -33,14 +33,3 @@
   flex-direction: column;
   margin-left: 20px;
 }
-
-.sizes {
-    .p-inputtext {
-        display: block;
-        margin-bottom: .5rem;
-
-        &:last-child {
-            margin-bottom: 0;
-        }
-    }
-}
