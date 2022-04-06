@@ -6,6 +6,11 @@ import { AppComponent } from './app.component';
 import { WeatherInfoComponent } from './components/weather-info/weather-info.component';
 import { HttpClientModule } from '@angular/common/http';
 import { GetWeatherService } from './services/get-weather.service';
+import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {InputTextModule} from 'primeng/inputtext';
+import {ButtonModule} from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -15,7 +20,12 @@ import { GetWeatherService } from './services/get-weather.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    InputTextModule,
+    ButtonModule
+
   ],
   providers: [GetWeatherService],
   bootstrap: [AppComponent]

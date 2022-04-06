@@ -1,29 +1,34 @@
 <div class="regularInfo">
-  <div class="overview-all">
-    <div class="main-temperature">
+<span class="p-input-icon-left">
+  <i class="pi pi-search"></i>
+  <input type="text" pInputText placeholder="Search Your Location" [(ngModel)]="locationToSearch" />
+</span>
+<div *ngIf="isWeatherLoaded" class="overview-all">
+  <div class="main-temperature">
+    {{
+      dashboardData.currentTemp +
+        (dashboardData.units === "f" ? " °F" : " °C")
+    }}
+  </div>
+  <div class="overview-small">
+    <div>&nbsp;</div>
+    <div class="condition">{{ dashboardData.condition }}</div>
+    <div class="min-max">
       {{
-        dashboardData.currentTemp.toString() +
+        dashboardData.maxTemp +
           (dashboardData.units === "f" ? " °F" : " °C")
       }}
     </div>
-    <div class="overview-small">
-      <div>&nbsp;</div>
-      <div class="condition">{{ dashboardData.condition }}</div>
-      <div class="min-max">
-        {{
-          dashboardData.maxTemp.toString() +
-            (dashboardData.units === "f" ? " °F" : " °C")
-        }}
-      </div>
-      <div class="min-max">
-        {{
-          dashboardData.minTemp.toString() +
-            (dashboardData.units === "f" ? " °F" : " °C")
-        }}
-      </div>
+    <div class="min-max">
+      {{
+        dashboardData.minTemp +
+          (dashboardData.units === "f" ? " °F" : " °C")
+      }}
     </div>
   </div>
-  <div class="location">
-    {{ dashboardData.location }}
-  </div>
+</div>
+<div *ngIf="!isWeatherLoaded" class="main-temperature"> LOADING WEATHER</div>
+<div class="location">
+  {{ dashboardData.location }}
+</div>
 </div>

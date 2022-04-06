@@ -1,7 +1,6 @@
-<div
-  class="background"
-  style="background-image: url({{ dashboardBackground('rain') }})"
+<body
+[ngStyle]="dashboardBackground()"
 >
-  <app-weather-info></app-weather-info>
-</div>
-<router-outlet></router-outlet>
+<app-weather-info></app-weather-info>
+</body>
+<router-outlet (weatherResult)="handleWeatherChange($event)"></router-outlet>

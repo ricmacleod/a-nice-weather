@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import {
   ILocationResult,
   IWeatherResult,
@@ -11,17 +11,21 @@ import { GetWeatherService } from 'src/app/services/get-weather.service';
   styleUrls: ['./weather-info.component.css'],
 })
 export class WeatherInfoComponent implements OnInit {
+  @Output() public weatherResult = new EventEmitter<string>();
+
   constructor(private _weatherService: GetWeatherService) {}
 
-  // Dummy info from example, need to remove
-  dashboardData = {
-    currentTemp: 73.4,
+  // Dummy info from example, need to remove, if this shows something broke
+  public dashboardData = {
+    currentTemp: "LOADING",
     units: 'f',
-    location: 'Manila, Philippines',
-    condition: 'Partly cloudy',
-    maxTemp: 85.1,
-    minTemp: 72.5,
+    location: 'LOADING',
+    condition: 'LOADING',
+    maxTemp: "LOADING",
+    minTemp: "LOADING",
   };
+
+  locationToSearch= "";
 
   weatherDashboard: any;
   isWeatherLoaded = false;
@@ -29,7 +33,7 @@ export class WeatherInfoComponent implements OnInit {
   setDashboardWeather(weather: IWeatherResult) {
     this.dashboardData.currentTemp = parseFloat(
       (weather.main.temp - 273.15).toFixed(1)
-    );
+    ).toString();
     // Need to move this so that F/C can be selected
     this.dashboardData.units = 'c';
     this.dashboardData.location = weather.name + ', ' + weather.sys.country;
@@ -38,13 +42,15 @@ export class WeatherInfoComponent implements OnInit {
       /^\w/,
       (c) => c.toUpperCase()
     );
+    console.log('sending this condition ***', this.dashboardData.condition)
+    this.weatherResult.emit(this.dashboardData.condition)
     // Harcoded Celsius for now
     this.dashboardData.maxTemp = parseFloat(
       (weather.main.temp_max - 273.15).toFixed(1)
-    );
+    ).toString();
     this.dashboardData.minTemp = parseFloat(
       (weather.main.temp_min - 273.15).toFixed(1)
-    );
+    ).toString();
     console.log('Dashboard data change =====', this.dashboardData);
   }
 
@@ -79,7 +85,9 @@ export class WeatherInfoComponent implements OnInit {
   ngOnInit(): void {
     this.loadWeatherInfo().then((loadWeatherComplete) => {
       if (loadWeatherComplete) {
+        console.log('got here  ^^^^ current:::',this.isWeatherLoaded);
         this.isWeatherLoaded = loadWeatherComplete;
+        console.log('got here  ^^^^ changed:::',this.isWeatherLoaded);
       }
     });
   }
