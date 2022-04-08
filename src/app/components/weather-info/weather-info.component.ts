@@ -58,6 +58,12 @@ export class WeatherInfoComponent implements OnInit {
     let locations: ILocationResult[];
     let weather: IWeatherResult;
     try {
+      const currentLocation = await this._weatherService.getCurrentLocation()
+      console.log('testing current location ____', currentLocation)
+    } catch {
+      console.log('got here somehow ____')
+    }
+    try {
       this._weatherService
         .getLocation({
           cityName: 'Monterrey',

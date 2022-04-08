@@ -13,17 +13,6 @@ export class GetWeatherService {
   getWeather(latitude: number, longitude: number): Observable<IWeatherResult> {
     console.log('these numbers >>>>>>', latitude, longitude);
     const weatherEndpoint = 'https://api.openweathermap.org/data/2.5/';
-    // const fetchWeather = await fetch(
-    //   `${weatherEndpoint}/weather?lat=${latitude}&lon=${longitude}&appid=${this.APIKey}`
-    // )
-    //   .then((response) => {
-    //     console.log('THIS WEATHER ---', response);
-    //     return response.json();
-    //   })
-    //   .then((processed) => {
-    //     console.log('got this finally', processed);
-    //     weather = processed;
-    //   });
     return this.http.get<IWeatherResult>(
       `${weatherEndpoint}/weather?lat=${latitude}&lon=${longitude}&appid=${this.APIKey}`
     );
@@ -32,27 +21,47 @@ export class GetWeatherService {
     cityName,
     stateCode,
     countryCode,
-    resultsLimit,
+    // resultsLimit,
   }: {
     cityName: string;
     stateCode: string;
     countryCode: string;
+    getCurrent?:boolean,
     // Need to limit the results when adding the input textbox
     resultsLimit?: number;
   }): Observable<ILocationResult[]> {
     const locationEndpoint = 'https://api.openweathermap.org/geo/1.0';
-    // let coordinates;
-    // await fetch(
-    //   `${locationEndpoint}/direct?q=${cityName},${stateCode},${countryCode}&limit=1&appid=${this.APIKey}`
-    // )
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log('GOT THIS COORDINATE DATA ---', data);
-    //     // Using only the first location for now
-    //     coordinates = data[0];
-    //   });
-    return this.http.get<ILocationResult[]>(
+    const defaultLocation = this.http.get<ILocationResult[]>(
       `${locationEndpoint}/direct?q=${cityName},${stateCode},${countryCode}&limit=1&appid=${this.APIKey}`
     );
+    return defaultLocation
+  }
+  async getCurrentLocation() {
+    let coordinates = {};
+    async function locationBroweserAPI (position:any){
+      const locationObject = {latitude: position.coords.latitude, longitude: position.coords.longitude}
+      console.log('GOT CURRENT LOCATION ????', locationObject)
+      coordinates = locationObject;
+    }
+    if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(locationBroweserAPI,(error)=>{
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+          console.log("Permissions denied for getting location")
+          break;
+          case error.POSITION_UNAVAILABLE:
+          console.log("Unavailable")
+          break;
+          case error.TIMEOUT:
+          console.log("Timeout")
+          break;
+        }
+        coordinates = {latitude: 0, longitude: 0}
+      });
+    } else {
+      console.log("Location API is not supported")
+      coordinates = {latitude: 0, longitude: 0}
+    }
+    return coordinates
   }
 }

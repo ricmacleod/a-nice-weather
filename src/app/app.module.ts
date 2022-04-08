@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {InputTextModule} from 'primeng/inputtext';
 import {ButtonModule} from 'primeng/button';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {ButtonModule} from 'primeng/button';
     FormsModule,
     BrowserAnimationsModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    AutoCompleteModule
   ],
   providers: [GetWeatherService],
   bootstrap: [AppComponent]
