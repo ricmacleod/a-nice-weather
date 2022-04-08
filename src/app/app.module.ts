@@ -25,7 +25,6 @@ import {ButtonModule} from 'primeng/button';
     BrowserAnimationsModule,
     InputTextModule,
     ButtonModule
-
   ],
   providers: [GetWeatherService],
   bootstrap: [AppComponent]

@@ -4,6 +4,7 @@
   position: fixed;
   bottom: 50px;
   margin-left: 50px;
+  width: 100%;
 }
 
 .main-temperature {
@@ -32,4 +33,10 @@
   display: flex;
   flex-direction: column;
   margin-left: 20px;
+}
+
+.p-input-icon-left{
+    position:absolute;
+    align-self: center;
+    right: 100px;
 }
