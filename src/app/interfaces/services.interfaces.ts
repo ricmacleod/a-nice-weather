@@ -50,3 +50,8 @@ export interface IWeatherResult {
   visibility: number;
   weather: SingleWeatherElement[];
 }
+
+export interface ILocationCordinates{
+  latitude: number;
+  longitude: number
+}

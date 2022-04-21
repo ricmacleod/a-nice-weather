@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {
   ILocationResult,
   IWeatherResult,
+  ILocationCordinates
 } from '../interfaces/services.interfaces';
 
 @Injectable()
@@ -36,11 +37,13 @@ export class GetWeatherService {
     );
     return defaultLocation
   }
-  async getCurrentLocation() {
-    let coordinates = {};
+  async getCurrentLocation(): Promise<ILocationCordinates> {
+    let coordinates = {latitude: 0, longitude: 0};
     async function locationBroweserAPI (position:any){
       const locationObject = {latitude: position.coords.latitude, longitude: position.coords.longitude}
       console.log('GOT CURRENT LOCATION ????', locationObject)
+      sessionStorage.setItem('userProvidedLatitude', locationObject.latitude.toString())
+      sessionStorage.setItem('userProvidedLongitude', locationObject.longitude.toString())
       coordinates = locationObject;
     }
     if(navigator.geolocation) {
